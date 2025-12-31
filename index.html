@@ -30,7 +30,6 @@
             /* FILL THE SCREEN */
             width: 98vw;
             height: 96vh;
-            /* Remove max-width limit */
             max-width: none; 
             
             padding: 1vh 1vw;
@@ -49,18 +48,18 @@
         /* --- Header Section --- */
         .header { 
             text-align: center; 
-            flex-shrink: 0; /* Prevent header from shrinking */
+            flex-shrink: 0; 
         }
         
         .sub-title { 
-            font-size: 3vh; /* Responsive font size */
+            font-size: 3vh; 
             margin: 0; 
             font-weight: bold; 
             opacity: 0.9;
         }
         
         .main-title {
-            font-size: 8vh; /* HUGE TITLE */
+            font-size: 8vh; 
             margin: 1vh 0; 
             text-transform: uppercase; 
             letter-spacing: 0.5vw;
@@ -93,7 +92,7 @@
         .led-number {
             font-family: 'Orbitron', sans-serif; 
             color: var(--led-red); 
-            font-size: 4vh; /* Big clock numbers */
+            font-size: 4vh;
             margin-left: 10px;
             text-shadow: 0 0 1vh var(--led-red); 
             letter-spacing: 2px;
@@ -105,21 +104,18 @@
         /* --- Grid Section --- */
         .price-grid {
             display: grid; 
-            /* Columns: Type(20%) - Buy(40%) - Sell(40%) */
             grid-template-columns: 1.2fr 2fr 2fr; 
             gap: 2vh 2vw; 
             align-items: center;
-            
-            /* Fill remaining height */
             flex-grow: 1;
             align-content: center; 
             padding: 2vh;
-            background: rgba(255,255,255,0.03); /* Subtle background for grid */
+            background: rgba(255,255,255,0.03); 
             border-radius: 8px;
         }
         
         .grid-header {
-            font-size: 4vh; /* Big Headers */
+            font-size: 4vh; 
             font-weight: bold; 
             text-align: center; 
             padding-bottom: 1vh;
@@ -131,7 +127,7 @@
             background-color: var(--gold-bg); 
             color: #000; 
             font-weight: bold; 
-            font-size: 5vh; /* Huge Type Label */
+            font-size: 5vh; 
             text-align: center; 
             padding: 1vh 0; 
             border-radius: 6px;
@@ -141,28 +137,13 @@
         .price-display {
             font-family: 'Orbitron', sans-serif; 
             color: var(--led-red); 
-            font-size: 7vh; /* HUGE Price Numbers */
+            font-size: 7vh; 
             text-align: center; 
             text-shadow: 0 0 1.5vh var(--led-red); 
             letter-spacing: 0.5vw;
         }
 
-        /* --- START OVERLAY --- */
-        #start-overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background-color: rgba(0,0,0,0.95);
-            display: flex; justify-content: center; align-items: center;
-            z-index: 9999; cursor: pointer;
-        }
-        .start-btn {
-            padding: 20px 40px; font-size: 3rem;
-            background: var(--gold-bg); border: 2px solid white;
-            color: black; font-weight: bold; border-radius: 10px;
-            animation: pulse 1.5s infinite;
-        }
-        @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.05); } 100% { transform: scale(1); } }
-
-        /* Mobile adjustments just in case */
+        /* Mobile adjustments */
         @media (max-width: 600px) {
             .main-title { font-size: 4vh; }
             .gold-type-label { font-size: 3vh; }
@@ -171,10 +152,6 @@
     </style>
 </head>
 <body>
-
-    <div id="start-overlay" onclick="enableFullScreen()">
-        <button class="start-btn">CHẠM ĐỂ BẮT ĐẦU</button>
-    </div>
 
     <div class="board-container">
         <header class="header">
@@ -207,16 +184,7 @@
         // 🔴 PASTE YOUR NPOINT URL HERE
         const API_URL = "https://api.npoint.io/a562599fcc70ea7f2de3"; 
 
-        // 1. FULL SCREEN
-        function enableFullScreen() {
-            var elem = document.documentElement;
-            if (elem.requestFullscreen) elem.requestFullscreen();
-            else if (elem.webkitRequestFullscreen) elem.webkitRequestFullscreen();
-            else if (elem.msRequestFullscreen) elem.msRequestFullscreen();
-            document.getElementById('start-overlay').style.display = 'none';
-        }
-
-        // 2. CLOCK
+        // 1. CLOCK
         function updateClock() {
             const now = new Date();
             const day = String(now.getDate()).padStart(2, '0');
@@ -229,7 +197,7 @@
         setInterval(updateClock, 1000);
         updateClock();
 
-        // 3. FETCH DATA
+        // 2. FETCH DATA
         async function fetchGoldPrices() {
             try {
                 const response = await fetch(API_URL + "?t=" + new Date().getTime());
@@ -259,6 +227,8 @@
                 priceIndex += 2;
             });
         }
+        
+        // Run immediately and every 30 seconds
         fetchGoldPrices();
         setInterval(fetchGoldPrices, 30000);
     </script>
