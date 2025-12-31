@@ -9,10 +9,32 @@
         :root {
             --bg-color: #121212;
             --frame-color: #4a4a4a;
-            --gold-text: #f4c430;
+            --gold-text: #f4c430; /* Fallback gold */
             --gold-bg: #d4af37;
             --led-red: #ff0000;
         }
+
+        /* === ANIMATION DEFINITIONS === */
+        @keyframes shineMove {
+            0% { background-position: 0% center; }
+            100% { background-position: 200% center; }
+        }
+
+        @keyframes diamondPulse {
+            0% { 
+                transform: scale(1);
+                text-shadow: 0 0 10px rgba(244, 196, 48, 0.5);
+            }
+            50% { 
+                transform: scale(1.1);
+                text-shadow: 0 0 25px rgba(244, 196, 48, 1), 0 0 5px rgba(255, 255, 255, 0.8);
+            }
+            100% { 
+                transform: scale(1);
+                text-shadow: 0 0 10px rgba(244, 196, 48, 0.5);
+            }
+        }
+        /* ================================= */
 
         body {
             background-color: #222;
@@ -27,127 +49,109 @@
 
         .board-container {
             background-color: var(--bg-color);
-            /* FILL THE SCREEN */
             width: 98vw;
-            height: 96vh;
+            height: 98vh;
             max-width: none; 
-            
-            padding: 1vh 1vw;
-            border: 1vh solid var(--frame-color);
+            padding: 0.5vh 0.5vw;
+            border: 0.5vh solid var(--frame-color);
             box-shadow: 0 0 20px rgba(0,0,0,0.8), inset 0 0 10px rgba(0,0,0,0.5);
-            border-radius: 10px;
+            border-radius: 8px;
             color: var(--gold-text);
             box-sizing: border-box;
-            
-            /* Flex layout to distribute space evenly */
             display: flex;
             flex-direction: column;
             justify-content: space-between;
         }
 
-        /* --- Header Section --- */
-        .header { 
-            text-align: center; 
-            flex-shrink: 0; 
-        }
+        .header { text-align: center; flex-shrink: 0; }
         
         .sub-title { 
-            font-size: 3vh; 
-            margin: 0; 
-            font-weight: bold; 
-            opacity: 0.9;
+            font-size: 6vh; margin: 0; font-weight: bold; opacity: 0.9; line-height: 1;
         }
         
+        /* === MAIN TITLE LUXURY LOOK === */
         .main-title {
-            font-size: 8vh; 
-            margin: 1vh 0; 
-            text-transform: uppercase; 
-            letter-spacing: 0.5vw;
-            display: flex; 
-            align-items: center; 
-            justify-content: center; 
-            gap: 2vw;
-            text-shadow: 0 0 10px rgba(212, 175, 55, 0.3);
+            font-size: 15.5vh;
+            margin: 0;
+            text-transform: uppercase; letter-spacing: 0.5vw;
+            display: flex; align-items: center; justify-content: center; gap: 2vw;
+            line-height: 1;
+            
+            /* Luxury Gradient Texture & Animation */
+            background: linear-gradient(
+                to right, 
+                #bf953f 0%, #fcf6ba 25%, #b38728 50%, #fbf5b7 75%, #aa771c 100%
+            );
+            background-size: 200% auto;
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: shineMove 4s linear infinite;
+            filter: drop-shadow(0 0 15px rgba(191, 149, 63, 0.4));
         }
         
-        .diamond-icon { font-size: 6vh; }
+        /* === ICONS (DIAMONDS & RINGS) === */
+        /* Renamed class to reflect it holds both icons now */
+        .jewelry-icon { 
+            font-size: 11.5vh;
+            /* Ensure icons are solid gold, not gradient */
+            -webkit-text-fill-color: var(--gold-text);
+            /* Add independent pulse animation */
+            animation: diamondPulse 2s ease-in-out infinite alternate;
+        }
+        /* ========================================= */
         
         .date-title { 
-            font-size: 3.5vh; 
-            margin: 1vh 0; 
-            border-bottom: 2px solid #333;
-            padding-bottom: 1vh;
-            display: inline-block;
+            font-size: 7vh; 
+            margin: 0.5vh 0; border-bottom: 2px solid #333; padding-bottom: 0;
+            display: inline-block; line-height: 1.1;
         }
 
-        /* --- LED Section --- */
         .datetime-display {
-            display: flex; 
-            justify-content: center; 
-            gap: 5vw; 
-            font-size: 3vh; 
-            margin-bottom: 2vh;
+            display: flex; justify-content: center; gap: 5vw; 
+            font-size: 6vh; margin-bottom: 0.5vh;
         }
         
         .led-number {
-            font-family: 'Orbitron', sans-serif; 
-            color: var(--led-red); 
-            font-size: 4vh;
-            margin-left: 10px;
-            text-shadow: 0 0 1vh var(--led-red); 
-            letter-spacing: 2px;
-            display: inline-block; 
-            min-width: 120px; 
-            text-align: center;
+            font-family: 'Orbitron', sans-serif; color: var(--led-red); 
+            font-size: 8vh; margin-left: 10px;
+            text-shadow: 0 0 1vh var(--led-red); letter-spacing: 2px;
+            display: inline-block; min-width: 150px; text-align: center;
         }
 
-        /* --- Grid Section --- */
         .price-grid {
             display: grid; 
             grid-template-columns: 1.2fr 2fr 2fr; 
-            gap: 2vh 2vw; 
-            align-items: center;
-            flex-grow: 1;
-            align-content: center; 
-            padding: 2vh;
-            background: rgba(255,255,255,0.03); 
-            border-radius: 8px;
+            gap: 0; row-gap: 0.2vh;
+            align-items: center; flex-grow: 1; align-content: center; 
+            padding: 0 1vh;
+            background: rgba(255,255,255,0.03); border-radius: 8px;
         }
         
         .grid-header {
-            font-size: 4vh; 
-            font-weight: bold; 
-            text-align: center; 
-            padding-bottom: 1vh;
-            border-bottom: 0.4vh solid var(--gold-text);
-            margin-bottom: 1vh;
+            font-size: 8vh; font-weight: bold; text-align: center; 
+            padding-bottom: 0; border-bottom: 0.3vh solid var(--gold-text);
+            margin-bottom: 0.2vh;
         }
         
         .gold-type-label {
-            background-color: var(--gold-bg); 
-            color: #000; 
-            font-weight: bold; 
-            font-size: 5vh; 
-            text-align: center; 
-            padding: 1vh 0; 
-            border-radius: 6px;
+            background-color: var(--gold-bg); color: #000; 
+            font-weight: bold; font-size: 6.5vh; 
+            text-align: center; padding: 0.2vh 0; border-radius: 6px;
             box-shadow: 0 0 10px rgba(212, 175, 55, 0.5);
         }
         
         .price-display {
-            font-family: 'Orbitron', sans-serif; 
-            color: var(--led-red); 
-            font-size: 7vh; 
-            text-align: center; 
-            text-shadow: 0 0 1.5vh var(--led-red); 
-            letter-spacing: 0.5vw;
+            font-family: 'Orbitron', sans-serif; color: var(--led-red); 
+            font-size: 9vh; text-align: center; 
+            text-shadow: 0 0 1.5vh var(--led-red); letter-spacing: 0.2vw;
         }
 
-        /* Mobile adjustments */
         @media (max-width: 600px) {
-            .main-title { font-size: 4vh; }
-            .gold-type-label { font-size: 3vh; }
-            .price-display { font-size: 4vh; }
+            .main-title { font-size: 8vh; }
+            .grid-header { font-size: 4vh; }
+            .gold-type-label { font-size: 4vh; }
+            .price-display { font-size: 5vh; }
         }
     </style>
 </head>
@@ -157,9 +161,9 @@
         <header class="header">
             <p class="sub-title">DNTN VÀNG BẠC</p>
             <div class="main-title">
-                <span class="diamond-icon">💎</span>
+                <span class="jewelry-icon">💎💍</span>
                 CHÍ THÀNH
-                <span class="diamond-icon">💎</span>
+                <span class="jewelry-icon">💍💎</span>
             </div>
             <p class="date-title">GIÁ VÀNG HÔM NAY</p>
             
@@ -181,10 +185,11 @@
     </div>
 
     <script>
-        // 🔴 PASTE YOUR NPOINT URL HERE
+        // ==========================================
+        // ID: a562599fcc70ea7f2de3
+        // ==========================================
         const API_URL = "https://api.npoint.io/a562599fcc70ea7f2de3"; 
 
-        // 1. CLOCK
         function updateClock() {
             const now = new Date();
             const day = String(now.getDate()).padStart(2, '0');
@@ -197,7 +202,6 @@
         setInterval(updateClock, 1000);
         updateClock();
 
-        // 2. FETCH DATA
         async function fetchGoldPrices() {
             try {
                 const response = await fetch(API_URL + "?t=" + new Date().getTime());
@@ -209,16 +213,20 @@
 
         function updateBoard(prices) {
             const board = document.getElementById('price-board');
+            
             board.innerHTML = `
                 <div class="grid-header">LOẠI</div>
                 <div class="grid-header">MUA VÀO</div>
                 <div class="grid-header">BÁN RA</div>
             `;
-            const types = ['9999', '99%', '980', '610'];
+            
+            const types = ['9999', '999', '980', '610'];
             let priceIndex = 0;
+            
             types.forEach(type => {
                 const buy = prices[priceIndex] || "---";
                 const sell = prices[priceIndex + 1] || "---";
+                
                 board.innerHTML += `
                     <div class="gold-type-label">${type}</div>
                     <div class="price-display">${buy}</div>
@@ -228,7 +236,6 @@
             });
         }
         
-        // Run immediately and every 30 seconds
         fetchGoldPrices();
         setInterval(fetchGoldPrices, 30000);
     </script>
