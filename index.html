@@ -34,7 +34,6 @@
                 text-shadow: 0 0 10px rgba(244, 196, 48, 0.5);
             }
         }
-        /* ================================= */
 
         body {
             background-color: #222;
@@ -69,10 +68,11 @@
             font-size: 6vh; margin: 0; font-weight: bold; opacity: 0.9; line-height: 1;
         }
         
-        /* === MAIN TITLE LUXURY LOOK === */
+        /* === MAIN TITLE LUXURY LOOK (BOLD) === */
         .main-title {
             font-size: 15.5vh;
             margin: 0;
+            font-weight: 900; /* Boldest weight */
             text-transform: uppercase; letter-spacing: 0.5vw;
             display: flex; align-items: center; justify-content: center; gap: 2vw;
             line-height: 1;
@@ -90,16 +90,11 @@
             filter: drop-shadow(0 0 15px rgba(191, 149, 63, 0.4));
         }
         
-        /* === ICONS (DIAMONDS & RINGS) === */
-        /* Renamed class to reflect it holds both icons now */
         .jewelry-icon { 
             font-size: 11.5vh;
-            /* Ensure icons are solid gold, not gradient */
             -webkit-text-fill-color: var(--gold-text);
-            /* Add independent pulse animation */
             animation: diamondPulse 2s ease-in-out infinite alternate;
         }
-        /* ========================================= */
         
         .date-title { 
             font-size: 7vh; 
@@ -177,18 +172,17 @@
             <div class="grid-header">LOẠI</div>
             <div class="grid-header">MUA VÀO</div>
             <div class="grid-header">BÁN RA</div>
-            
-            <div class="gold-type-label">...</div>
-            <div class="price-display">---</div>
-            <div class="price-display">---</div>
+            <div class="gold-type-label">Đang tải...</div>
+            <div class="price-display">...</div>
+            <div class="price-display">...</div>
         </main>
     </div>
 
     <script>
-        // ==========================================
-        // ID: a562599fcc70ea7f2de3
-        // ==========================================
-        const API_URL = "https://api.npoint.io/a562599fcc70ea7f2de3"; 
+        // =========================================================
+        // YOUR GOOGLE SHEET LINK IS INSERTED BELOW
+        // =========================================================
+        const GOOGLE_SHEET_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTi0HNhdSLsVTdBMVUB2XKZoJSGUtju4vWy0PJ3KnbKgKDdaDvKzDtkgweg__vXvFP60hmNLvAjW8A1/pub?output=csv"; 
 
         function updateClock() {
             const now = new Date();
@@ -197,18 +191,31 @@
             const hours = String(now.getHours()).padStart(2, '0');
             const minutes = String(now.getMinutes()).padStart(2, '0');
             document.getElementById('current-date').textContent = `${day}-${month}`;
-            document.getElementById('current-time').textContent = `${hours}${minutes}`;
+            document.getElementById('current-time').textContent = `${hours}:${minutes}`;
         }
         setInterval(updateClock, 1000);
         updateClock();
 
         async function fetchGoldPrices() {
             try {
-                const response = await fetch(API_URL + "?t=" + new Date().getTime());
+                // We add &t=timestamp to the URL to force a fresh download (bypass cache)
+                const response = await fetch(GOOGLE_SHEET_URL + "&t=" + new Date().getTime());
+                
                 if (!response.ok) throw new Error('Network error');
-                const prices = await response.json(); 
-                if(Array.isArray(prices)) updateBoard(prices);
-            } catch (error) { console.error("Error:", error); }
+
+                const textData = await response.text();
+                
+                // Logic: Split by new line -> trim spaces -> remove quotes -> filter empty/invalid lines
+                const prices = textData
+                    .split('\n')
+                    .map(line => line.trim().replace(/"/g, '')) 
+                    .filter(line => line !== '' && !isNaN(line.replace(/,/g, ''))); 
+
+                if(prices.length > 0) updateBoard(prices);
+
+            } catch (error) { 
+                console.error("Error fetching prices:", error); 
+            }
         }
 
         function updateBoard(prices) {
@@ -237,7 +244,7 @@
         }
         
         fetchGoldPrices();
-        setInterval(fetchGoldPrices, 30000);
+        setInterval(fetchGoldPrices, 30000); // Check for updates every 30 seconds
     </script>
 </body>
 </html>
