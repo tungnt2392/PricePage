@@ -6,7 +6,7 @@
     <title>Bảng Giá Vàng CHÍ THÀNH</title>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&display=swap" rel="stylesheet">
     <style>
-        : root {
+        :root {
             --bg-color: #121212;
             --frame-color: #4a4a4a;
             --gold-text: #f4c430; /* Fallback gold */
@@ -31,7 +31,7 @@
             }
             100% { 
                 transform: scale(1);
-                text-shadow:  0 0 10px rgba(244, 196, 48, 0.5);
+                text-shadow: 0 0 10px rgba(244, 196, 48, 0.5);
             }
         }
 
@@ -52,7 +52,7 @@
             height: 98vh;
             max-width: none; 
             padding: 0.5vh 0.5vw;
-            border:  0.5vh solid var(--frame-color);
+            border: 0.5vh solid var(--frame-color);
             box-shadow: 0 0 20px rgba(0,0,0,0.8), inset 0 0 10px rgba(0,0,0,0.5);
             border-radius: 8px;
             color: var(--gold-text);
@@ -65,12 +65,12 @@
         .header { text-align: center; flex-shrink: 0; }
         
         .sub-title { 
-            font-size: 6vh; margin:  0; font-weight: bold; opacity: 0.9; line-height: 1;
+            font-size: 6vh; margin: 0; font-weight: bold; opacity: 0.9; line-height: 1;
         }
         
         /* === MAIN TITLE LUXURY LOOK (BOLD) === */
         .main-title {
-            font-size:  15. 5vh;
+            font-size: 15.5vh;
             margin: 0;
             font-weight: 900; /* Boldest weight */
             text-transform: uppercase; letter-spacing: 0.5vw;
@@ -90,8 +90,8 @@
             filter: drop-shadow(0 0 15px rgba(191, 149, 63, 0.4));
         }
         
-        . jewelry-icon { 
-            font-size: 11. 5vh;
+        .jewelry-icon { 
+            font-size: 11.5vh;
             -webkit-text-fill-color: var(--gold-text);
             animation: diamondPulse 2s ease-in-out infinite alternate;
         }
@@ -102,7 +102,7 @@
             display: inline-block; line-height: 1.1;
         }
 
-        . datetime-display {
+        .datetime-display {
             display: flex; justify-content: center; gap: 5vw; 
             font-size: 6vh; margin-bottom: 0.5vh;
         }
@@ -116,11 +116,11 @@
 
         .price-grid {
             display: grid; 
-            grid-template-columns:  1.2fr 2fr 2fr; 
+            grid-template-columns: 1.2fr 2fr 2fr; 
             gap: 0; row-gap: 0.2vh;
             align-items: center; flex-grow: 1; align-content: center; 
             padding: 0 1vh;
-            background: rgba(255,255,255,0.03); border-radius:  8px;
+            background: rgba(255,255,255,0.03); border-radius: 8px;
         }
         
         .grid-header {
@@ -180,7 +180,7 @@
             <div class="grid-header">BÁN RA</div>
             <div class="gold-type-label">Đang tải...</div>
             <div class="price-display">...</div>
-            <div class="price-display">... </div>
+            <div class="price-display">...</div>
         </main>
     </div>
 
@@ -225,13 +225,13 @@
                 
                 if (!response.ok) throw new Error('Network error');
 
-                const textData = await response. text();
+                const textData = await response.text();
                 
                 // Logic:  Split by new line -> trim spaces -> remove quotes -> filter empty/invalid lines
                 const prices = textData
                     .split('\n')
                     .map(line => line.trim().replace(/"/g, '')) 
-                    .filter(line => line !== '' && !isNaN(line. replace(/,/g, ''))); 
+                    .filter(line => line !== '' && !isNaN(line.replace(/,/g, ''))); 
 
                 if(prices.length > 0) updateBoard(prices);
 
