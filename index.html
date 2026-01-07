@@ -133,7 +133,7 @@
             background-color: var(--gold-bg); 
             color: #000; 
             font-weight: bold; 
-            font-size: 4.5vh; 
+            font-size: 6.5vh; 
             text-align: center; 
             padding: 0.2vh 0.5vw; 
             border-radius: 6px;
@@ -213,7 +213,7 @@
             
             // Start with current font size and reduce if needed
             while ((container.scrollWidth > containerWidth || container.scrollHeight > containerHeight) && fontSize > 10) {
-                fontSize -= 0.5;
+                fontSize -= 0.2;
                 container. style.fontSize = fontSize + 'px';
             }
         }
